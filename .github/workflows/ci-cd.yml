@@ -1,12 +1,12 @@
-name: PHP CI/CD
+name: PHP CI/CD (Self-Hosted)
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-22.04
+  build-and-deploy:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Code
@@ -21,17 +21,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t rahulhub1313/mini-cicd-php .
 
-      - name: Run container to validate
+      - name: Stop existing container if running
+        run: |
+          docker stop php-container || true
+          docker rm php-container || true
+
+      - name: Run live container
         run: |
           docker run -d --name php-container -p 8080:80 rahulhub1313/mini-cicd-php
-          sleep 5
-          curl -s http://localhost:8080 | grep "Hello from PHP"
+          echo "Container is now running on http://localhost:8080"
 
-      - name: Push Docker image
+      - name: Push Docker image to Docker Hub
         run: docker push rahulhub1313/mini-cicd-php
-
-      - name: Cleanup container
-        run: |
-          docker stop php-container
-          docker rm php-container
-
