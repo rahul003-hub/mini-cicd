@@ -29,9 +29,3 @@ jobs:
 
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
-
-      - name: Cleanup container
-        run: |
-          docker stop php-container
-          docker rm php-container
-
