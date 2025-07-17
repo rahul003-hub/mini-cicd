@@ -1,0 +1,16 @@
+name: Notify After Deploy
+
+on:
+  workflow_run:
+    workflows: ["Deploy After Build"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Notification
+        run: echo "Deployment done. Sending notification..."
+
