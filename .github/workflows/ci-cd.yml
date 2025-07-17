@@ -8,6 +8,9 @@ jobs:
   build-and-push:
     runs-on: self-hosted
     
+    env:
+      APP_PORT: 8081
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -27,7 +30,7 @@ jobs:
         run: docker build -t rahulhub1313/mini-cicd-php .
         
       - name: Run container on self-hosted runner
-        run: docker run -d --name php-container -p 8080:80 rahulhub1313/mini-cicd-php
+        run: docker run -d --name php-container -p ${{ env.APP_PORT }}:80 rahulhub1313/mini-cicd-php
         
       - name: Check if container is running
         run: docker ps -a
@@ -38,7 +41,7 @@ jobs:
       - name: Validate from localhost (self-hosted)
         run: |
           sleep 3
-          curl -s http://localhost:8080 | grep "Hello from PHP"
+          curl -s http://localhost:${{ env.APP_PORT }} | grep "Hello from PHP"
           
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
