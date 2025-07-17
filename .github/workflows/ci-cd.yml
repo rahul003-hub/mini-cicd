@@ -46,8 +46,4 @@ jobs:
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
         
-      - name: Cleanup after job completion
-        if: always()
-        run: |
-          docker stop php-container || true
-          docker rm php-container || true
+     
