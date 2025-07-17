@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -21,11 +21,13 @@ jobs:
       - name: Build Docker image
         run: docker build -t rahulhub1313/mini-cicd-php .
 
-      - name: Run container to validate
+      - name: Run container
+        run: docker run -d --name php-container rahulhub1313/mini-cicd-php
+
+      - name: Validate container output
         run: |
-          docker run -d --name php-container -p 8080:80 rahulhub1313/mini-cicd-php
           sleep 5
-          curl -s http://localhost:8080 | grep "Hello from PHP"
+          docker exec php-container curl -s http://localhost | grep "Hello from PHP"
 
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
