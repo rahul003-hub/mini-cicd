@@ -22,16 +22,21 @@ jobs:
         run: docker build -t rahulhub1313/mini-cicd-php .
 
       - name: Run container in background
-        run: docker run -d --name php-container rahulhub1313/mini-cicd-php
+        run: docker run -d --name php-container -p 8080:80 rahulhub1313/mini-cicd-php
 
-      - name: Show container logs (for debug)
+      - name: Show all containers (including stopped)
+        run: docker ps -a
+
+      - name: Show container logs (initial)
         run: docker logs php-container || true
 
-      - name: Check response from inside container
+      - name: Validate container response from inside
         run: |
           sleep 3
-          docker exec php-container curl -s http://localhost || echo "Failed"
           docker exec php-container curl -s http://localhost | grep "Hello from PHP"
+
+      - name: Show container logs (after validation)
+        run: docker logs php-container || true
 
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
