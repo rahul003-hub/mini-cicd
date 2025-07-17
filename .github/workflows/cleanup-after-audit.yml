@@ -1,0 +1,20 @@
+name: Cleanup After Audit
+
+on:
+  workflow_run:
+    workflows: ["Audit After Notify"]
+    types:
+      - completed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Cleanup Temp Files
+        run: echo "🧹 Cleaning up temporary files..."
+
+      - name: Finalize CI
+        run: echo "✅ CI/CD process fully complete."
