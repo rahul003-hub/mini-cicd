@@ -1,3 +1,3 @@
 <?php
-echo "🚀 Hello from PHP CI/CD!";
+echo " Hello from PHP CI/CD!";
 ?>
