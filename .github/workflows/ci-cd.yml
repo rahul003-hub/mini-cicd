@@ -1,4 +1,4 @@
-name: PHP CI/CD
+name: PHP CI/CD (Self-Hosted)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Code
@@ -21,22 +21,19 @@ jobs:
       - name: Build Docker image
         run: docker build -t rahulhub1313/mini-cicd-php .
 
-      - name: Run container in background
+      - name: Run container on self-hosted runner
         run: docker run -d --name php-container -p 8080:80 rahulhub1313/mini-cicd-php
 
-      - name: Show all containers (including stopped)
+      - name: Check if container is running
         run: docker ps -a
 
-      - name: Show container logs (initial)
+      - name: Show container logs
         run: docker logs php-container || true
 
-      - name: Validate container response from inside
+      - name: Validate from localhost (self-hosted)
         run: |
           sleep 3
-          docker exec php-container curl -s http://localhost | grep "Hello from PHP"
-
-      - name: Show container logs (after validation)
-        run: docker logs php-container || true
+          curl -s http://localhost:8080 | grep "Hello from PHP"
 
       - name: Push Docker image
         run: docker push rahulhub1313/mini-cicd-php
