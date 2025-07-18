@@ -1,0 +1,15 @@
+name: Report
+
+on:
+  workflow_run:
+    workflows: ["Cleanup After Audit"]
+    types:
+      - completed
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Final Report
+        run: echo "📄 Final report generated after cleanup"
