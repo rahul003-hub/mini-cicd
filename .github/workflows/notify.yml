@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Notification
-        run: echo "Deployment done.. Sending notification..."
+        run: echo "Deployment done. Sending notification..."
 
