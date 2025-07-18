@@ -1,0 +1,16 @@
+name: Notify
+
+on:
+  workflow_run:
+    workflows: ["Audit After Notify"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Send Notification
+        run: echo "📢 Notifying team..."
