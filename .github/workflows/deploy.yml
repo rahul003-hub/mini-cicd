@@ -2,7 +2,7 @@ name: Deploy After Build
 
 on:
   workflow_run:
-    workflows: ["Build and Test"]
+    workflows: ["Audit After Notify"]
     types:
       - completed
 
@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy Code
-        run: echo "Deploying app..."
+        run: echo "Deploying   app..."
