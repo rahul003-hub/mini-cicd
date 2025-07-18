@@ -2,7 +2,7 @@ name: Audit After Notify
 
 on:
   workflow_run:
-    workflows: ["Notify After Deploy"]
+    workflows: ["Cleanup After Audit"]
     types:
       - completed
 
